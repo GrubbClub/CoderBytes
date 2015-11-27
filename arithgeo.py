@@ -11,11 +11,11 @@ def is_arith(nums): #this funtion returns a boolean of if a list is arithmetic
 	return arith
 
 
-def is_geo(nums):
+def is_geo(nums): #this fuction returns boolean for geometric list
 	geo = True
 	i = 0
 	difference = nums[1] / nums[0]
-	if nums[1] % nums[0] != 0:
+	if nums[1] % nums[0] != 0: #removes numbers that dont divide cleanly
 		return False
 	while geo:
 		if i == len(nums) - 1:
@@ -27,7 +27,7 @@ def is_geo(nums):
 		i += 1
 	return geo
 
-def arithgeo(nums):
+def arithgeo(nums): #our final function combining the others
 	if is_arith(nums):
 		return "Arithmetic"
 	elif is_geo(nums):
