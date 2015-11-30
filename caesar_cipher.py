@@ -1,14 +1,17 @@
 #caesar cipher
 #take a string and move all letters DOWN the alphabet by INTEGER
 
-def caesar_cipher(st, num):  
-    st = str(st)
+def caesar_cipher(st, num):
 
-    if num != int(num):
-        print "ERROR"
-        break
+    # WRITE ERROR MESSAGE USING TRY/EXCEPT????
+
+      
+    # st = str(st)
+
+    # if num is not int:
+    #     return "ERROR"
     
-    num = abs(int(num))
+    # num = abs(int(num))
     
     if num == 0:
         num = 1
