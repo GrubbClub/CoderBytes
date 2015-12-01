@@ -4,6 +4,7 @@ def binary_converter(num_str): #way too easy version
 
 print binary_converter("101")
 print binary_converter("1000")
+print binary_converter("100101001010010101001010101")
 
 def bin_converter(num_str): #more involved version
 	total = 0 #running count
@@ -16,3 +17,4 @@ def bin_converter(num_str): #more involved version
 print bin_converter("101")
 print bin_converter("1000")
 print bin_converter("1")
+print bin_converter("100101001010010101001010101")
