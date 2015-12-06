@@ -1,7 +1,7 @@
-def simple_adding(num):
-	total = 0
-	for i in range(num + 1):
-		total += i
+def simple_adding(num): #adds all numbers up to num together
+	total = 0 #running total
+	for i in range(num + 1): #iterates through every number up to num
+		total += i #adds to total
 	return total
 
 print simple_adding(12)

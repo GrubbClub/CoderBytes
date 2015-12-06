@@ -1,7 +1,7 @@
-def longest_word(sen):
-	high_score = 0
-	winner = ""
-	sen_arr = sen.split()
+def longest_word(sen): #find longest word in sentence
+	high_score = 0 #length of longest
+	winner = "" #current longest
+	sen_arr = sen.split() #splits strings into individual words in an array
 	for s in sen_arr:
 		if len(s) > high_score:
 			winner = s

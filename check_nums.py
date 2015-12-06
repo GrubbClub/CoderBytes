@@ -1,4 +1,4 @@
-def check_nums(num1, num2):
+def check_nums(num1, num2): #if 1 is < 2 its true, 1 > 2 false, if same return -1
 	if num1 == num2:
 		return (-1)
 	elif num1 < num2:
