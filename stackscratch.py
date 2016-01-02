@@ -45,6 +45,9 @@ class Queue(object):
 	def examine(self):
 		return self.items[0]
 
+	def size(self):
+		return len(self.items)
+
 zaq = Queue()
 print zaq.items
 print zaq.isempty()
