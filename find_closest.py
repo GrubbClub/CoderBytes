@@ -65,35 +65,28 @@ class Tree(object):
 		else:
 			print "wtf"
 
-	def path(self, num):
-		if self.root is not None:
-			path = "|"
-			total = 0
-			raw = self._path(num, self.root, total, path)
-			#PUT STRIPPER HERE
-			return raw
-		else:
-			return None
+def get_paths(tree_node, val):
+		if not tree_node:
+			return []
+		return  get_paths_optimized(tree_node,val) # get_paths(tree_node.l, val) +  get_paths(tree_node.r, val)
 
-	def _path(self, num, node, total, path):
-		path += str(node.v) + ", "
-		tpath = path
-		total += node.v
-		print "-----------" + str(path)
-		print "-----------" + str(total)
-		if not node.l and not node.r:
-			#if total == num:
-			return str(node.v) + "|"
-		if node.l:
-			path += self._path(num, node.l, total, path)
-		if node.r:
-			tpath += self._path(num, node.r, total, tpath)
-		if node.l and node.r:
-			return path + tpath
-		elif node.l:
-			return path
-		elif node.r:
-			return tpath
+def get_paths_optimized(node, sum_val, node_chain = None):
+		if not node_chain:
+			node_chain = []
+		if not node:
+			return []
+		s=0
+		res=[]
+		node_chain_tmp =  [node.v] + node_chain
+		for i, val in enumerate(node_chain_tmp):
+			s=s+val 
+			if s==sum_val and not node.l and not node.r and i == len(node_chain_tmp)-1:
+				solution=(node_chain_tmp[:i+1])
+				solution.reverse()
+				res.append(solution)
+		return res + get_paths_optimized(node.l, sum_val, node_chain_tmp) + get_paths_optimized(node.r, sum_val, node_chain_tmp)
+
+
 
 
 
@@ -131,5 +124,17 @@ my_tree_cuatro.add(12)
 my_tree_cuatro.add(5)
 my_tree_cuatro.add(4)
 my_tree_cuatro.add(7)
-answer_4 = my_tree_cuatro.path(22)
+answer_4 = get_paths(my_tree_cuatro.root,22)
 print answer_4
+
+print "Test Case 5\n"
+my_tree_cinco = Tree()
+my_tree_cinco.add(10)
+my_tree_cinco.add(12)
+my_tree_cinco.add(5)
+my_tree_cinco.add(4)
+my_tree_cinco.add(7)
+answer_5 = get_paths(my_tree_cinco.root,19)
+print answer_5
+
+
