@@ -1,7 +1,21 @@
 #caesar cipher
-#take a string and move all letters DOWN the alphabet by INTERGER
+#take a string and move all letters DOWN the alphabet by INTEGER
 
-def caesar_cipher(st, num):  
+def caesar_cipher(st, num):
+
+    # WRITE ERROR MESSAGE USING TRY/EXCEPT????
+
+      
+    # st = str(st)
+
+    # if num is not int:
+    #     return "ERROR"
+    
+    # num = abs(int(num))
+    
+    if num == 0:
+        num = 1
+    
     if num > 26: #finds the real number for shift if num > alphabet length
         num = num % 26
     
