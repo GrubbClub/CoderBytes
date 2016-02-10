@@ -3,13 +3,13 @@
   <project autorefresh="false" build="Percolation/classes/" main="PercolationStats" root="Percolation/" work="Percolation/">
     <createjar file=""/>
     <source>
-      <file active="true" name="src/PercolationStats.java" package="Percolation.src" timestamp="10-Feb-2016 00:23:52">
-        <select from="1046" to="1046"/>
-        <scroll column="28" row="0"/>
+      <file name="src/Percolation.java" package="Percolation.src" timestamp="10-Feb-2016 01:38:53">
+        <select from="1547" to="47"/>
+        <scroll column="0" row="0"/>
       </file>
-      <file name="src/Percolation.java" package="Percolation.src" timestamp="10-Feb-2016 00:18:51">
-        <select from="1046" to="1046"/>
-        <scroll column="28" row="0"/>
+      <file name="src/PercolationStats.java" package="Percolation.src" timestamp="10-Feb-2016 13:23:39">
+        <select from="1547" to="47"/>
+        <scroll column="0" row="0"/>
       </file>
     </source>
     <included/>
