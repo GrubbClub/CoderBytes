@@ -5,36 +5,36 @@ import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats
 {  
-    double[] results;
-    double[] meanArray;
-    double[] stddevArray;
-    double[] loArray;
-    double[] hiArray;
+    public static int[] results;
     
     // perform T independent experiments on an N-by-N grid
     public PercolationStats(int N, int T) {   
         int i = 0;
-        double[] meanArray = new double[T];
+        int[] results = new int[T];
         double[] stddevArray = new double[T];
         double[] loArray = new double[T];
         double[] hiArray = new double[T];
         while(i < T){
             Percolation perc = new Percolation(N);
-            int counter = 1;
+            int counter = 0;
             while (!perc.percolates()){
-                int x = randOpener(gridSize);
-                int y = randOpener(gridSize);
+                int x = (int)(Math.random() * N);
+                int y = (int)(Math.random() * N);
                 if(!perc.isOpen(x, y)){
                     perc.open(x, y);
                     counter++;
                 }
             }
-            meanArray[i] = perc.mean();
-            stddevArray[i] = perc.stddev();
-            loArray[i] = perc.confidenceLo();
-            hiArray[i] = perc.confidenceHi();
+            results[i] = counter;
+//            stddevArray[i] = perc.stddev();
+//            loArray[i] = perc.confidenceLo();
+//            hiArray[i] = perc.confidenceHi();
             i++;
-            
+        }
+      //  double resultsMean = mean(results);
+    }
+    public int getResults(){
+        return results[0];
     }
 //     // sample mean of percolation threshold
 //    public double mean()  {
@@ -59,6 +59,8 @@ public class PercolationStats
 //    
    public static void main(String[] args)  // test client (optional)
    {
-
+       PercolationStats percs = new PercolationStats(10, 20);
+       System.out.println(percs.getResults());
+       
     } 
 }
