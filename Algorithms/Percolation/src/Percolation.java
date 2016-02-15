@@ -66,8 +66,6 @@ public class Percolation {
        if(isValid(i,j-1) && isOpen(i, j-1))
        {
            uf.union(convertCoordinates(i,j), convertCoordinates(i,j-1));
-           System.out.println("Connecting " + convertCoordinates(i,j) + " and "
-                                  + convertCoordinates(i,j-1));
        }
        if(isValid(i+1,j) && isOpen(i+1, j))
        {
@@ -91,7 +89,7 @@ public class Percolation {
    {
        return uf.connected(getDummyTop(), getDummyBottom());
    }
-   public static int randOpener(int n){
+   private static int randOpener(int n){
         int result = (int)(Math.random() * n);
         return result;
     }
