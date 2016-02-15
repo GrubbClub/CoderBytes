@@ -1,4 +1,5 @@
 package Percolation.src;
+import java.lang.*;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
@@ -29,13 +30,13 @@ public class Percolation {
    
    private int convertCoordinates(int i, int j)
    {
-      return i + j*gridSize + 1; 
+      return (i-1) + (j-1)*gridSize + 1; 
    }
    
    private boolean isValid(int i, int j)
    {
        //If i or j is less than 0 or bigger than the gridsize it is invalid
-       return (i>=0 && j >= 0 && i < gridSize && j < gridSize);
+       return (i>0 && j > 0 && i <= gridSize && j <= gridSize);
    }
    
    private int getDummyTop()
@@ -50,15 +51,20 @@ public class Percolation {
    
    public void open(int i, int j)          // open site (row i, column j) if it is not open already
    {
+       if(!isValid(i,j))
+       {
+           throw new java.lang.IndexOutOfBoundsException();
+       }
        grid[convertCoordinates(i, j)] = 1;
-       if(j == 0) 
+       if(j == 1) 
        {
            uf.union(getDummyTop(), convertCoordinates(i,j));
        }
-       if(j == gridSize - 1)
+       if(j == gridSize)
        {
            uf.union(convertCoordinates(i,j), getDummyBottom());
        }
+      
        if(isValid(i-1,j) && isOpen(i-1, j))
        {
            uf.union(convertCoordinates(i,j), convertCoordinates(i-1,j));
@@ -75,59 +81,40 @@ public class Percolation {
        {
            uf.union(convertCoordinates(i,j), convertCoordinates(i,j+1));
        }
+       
+       
    }
 
    public boolean isOpen(int i, int j)     // is site (row i, column j) open?
    {
+       if(!isValid(i,j))
+       {
+           throw new java.lang.IndexOutOfBoundsException();
+       }
        return grid[convertCoordinates(i,j)] == 1;
    }
    public boolean isFull(int i, int j)     // is site (row i, column j) full?
    {
+       if(!isValid(i,j))
+       {
+           throw new java.lang.IndexOutOfBoundsException();
+       }
        return getDummyTop() == uf.find(convertCoordinates(i,j));
    }
    public boolean percolates()             // does the system percolate?
    {
        return uf.connected(getDummyTop(), getDummyBottom());
    }
-   private static int randOpener(int n){
-        int result = (int)(Math.random() * n);
-        return result;
-    }
    public static void main(String[] args)  // test client (optional)
-   {
-       //Percolation perc = new Percolation(10);
-       //System.out.println(perc.convertCoordinates(0,0) == 1);
-       //System.out.println(perc.convertCoordinates(5,0) == 6);
-       //System.out.println(perc.convertCoordinates(0,1) == 11);
-       //perc.open(5,5);
-       //System.out.println(perc.isOpen(5,5) == true);
-       //System.out.println(perc.isOpen(5,4) == false);
-       //perc.open(0,0);
-       
-//       int counter = 1;
-//       Percolation mcperc = new Percolation(200);
-//       while (!mcperc.percolates()){
-//           int x = randOpener(gridSize);
-//           int y = randOpener(gridSize);
-//           if(!mcperc.isOpen(x, y)){
-//               mcperc.open(x, y);
-//               counter++;
-//           }
-       
-   
-       //}
-//       System.out.println("System percolates after " + counter + " out of " + gridCount + " sites have been opened for a threshold of: "
-//                              + (((double) counter)) / ((double) gridCount));
-       
+   {      
        Percolation perc_one = new Percolation(1);
        System.out.println(perc_one.percolates() == false);
-       System.out.println(perc_one.isOpen(0,0) == false);
-       perc_one.open(0,0);
+       System.out.println(perc_one.isOpen(1,1) == false);
+       perc_one.open(1,1);
+       
        System.out.println(perc_one.percolates() == true);
-       System.out.println(perc_one.isOpen(0,0) == true);
+       System.out.println(perc_one.isOpen(1,1) == true);
        Percolation perc_two = new Percolation(5);
-       perc_two.open(2,0);
-       System.out.println(perc_two.percolates() == false);
        perc_two.open(2,1);
        System.out.println(perc_two.percolates() == false);
        perc_two.open(2,2);
@@ -135,18 +122,14 @@ public class Percolation {
        perc_two.open(2,3);
        System.out.println(perc_two.percolates() == false);
        perc_two.open(2,4);
+       System.out.println(perc_two.percolates() == false);
+       perc_two.open(2,5);
        System.out.println(perc_two.percolates() == true);
-       System.out.println(grid[0]);
-       for (int i = 1; i < grid.length - 1; i++) {
-           System.out.print(grid[i]);
-           if (i % 5 == 0)
-               System.out.println();
-       }
-       System.out.println(grid[dummyBottom]);
-       System.out.println(perc_two.isFull(2,0) == true);
+      
        System.out.println(perc_two.isFull(2,1) == true);
        System.out.println(perc_two.isFull(2,2) == true);
        System.out.println(perc_two.isFull(2,3) == true);
        System.out.println(perc_two.isFull(2,4) == true);
+       System.out.println(perc_two.isFull(2,5) == true);
     }
 }
