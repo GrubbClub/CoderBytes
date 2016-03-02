@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 public class Deque<Item> implements Iterable<Item> {
    Node first;
    Node last;
@@ -77,14 +79,50 @@ public class Deque<Item> implements Iterable<Item> {
      size--;
      return temp;
    }
- //  public Iterator<Item> iterator()         // return an iterator over items in order from front to end
-
+   public Iterator<Item> iterator()         // return an iterator over items in order from front to end
+   {       
+       return new DequeIterator();
+   }
+   
+   private class DequeIterator implements Iterator<Item>
+   {
+       private Node current = first;
+       
+       public boolean hasNext()
+       {
+           return current != null;
+       }
+       public void remove()
+       {
+           throw new UnsupportedOperationException("RS says fuckouttahere");
+       }
+       public Item next()
+       {
+           Item item = current.value;
+           current = current.next;
+           return item;
+       }
+   }
+   
    public static void main(String[] args)   // unit testing
    {
        Deque kunzel = new Deque();
+       System.out.println(kunzel.size == 0);
        kunzel.addFirst(5);
+       System.out.println(kunzel.size == 1);
+       System.out.println(kunzel.last.value.equals(5));
        kunzel.addLast(6);
-       
-       
+       System.out.println(kunzel.size == 2);
+       System.out.println(kunzel.first.value.equals(5));
+       System.out.println(kunzel.last.value.equals(6));
+       kunzel.removeFirst();
+       System.out.println(kunzel.first.value.equals(6));
+       System.out.println(kunzel.size == 1);
+       kunzel.addLast(7);
+       kunzel.addLast(8);
+       System.out.println(kunzel.size == 3);
+       kunzel.removeLast();
+       System.out.println(kunzel.size == 2);
+       //DequeIterator kunziterator = kunzel.iterator();
    }
 }
