@@ -4,7 +4,8 @@ public class Deque<Item> implements Iterable<Item> {
    Node first;
    Node last;
    int size;
-   public class Node
+
+   private class Node
    {
        Node next;
        Node prev;
@@ -81,10 +82,10 @@ public class Deque<Item> implements Iterable<Item> {
    }
    public Iterator<Item> iterator()         // return an iterator over items in order from front to end
    {       
-       return new DequeIterator();
+       return new DequeIterator<Item>();
    }
    
-   private class DequeIterator implements Iterator<Item>
+   private class DequeIterator<Item> implements Iterator<Item>
    {
        private Node current = first;
        
@@ -98,7 +99,7 @@ public class Deque<Item> implements Iterable<Item> {
        }
        public Item next()
        {
-           Item item = current.value;
+           Item item = (Item)(current.value);
            current = current.next;
            return item;
        }
@@ -120,9 +121,16 @@ public class Deque<Item> implements Iterable<Item> {
        System.out.println(kunzel.size == 1);
        kunzel.addLast(7);
        kunzel.addLast(8);
-       System.out.println(kunzel.size == 3);
+       kunzel.addLast(9);
+       kunzel.addFirst(5);
+       System.out.println(kunzel.size == 5);
        kunzel.removeLast();
-       System.out.println(kunzel.size == 2);
-       //DequeIterator kunziterator = kunzel.iterator();
+       System.out.println(kunzel.size == 4);
+       Iterator<Integer> kunziterator = kunzel.iterator();
+       System.out.println(kunziterator.hasNext() == true);
+       while (kunziterator.hasNext())
+       {
+           System.out.println(kunziterator.next());
+       }
    }
 }
