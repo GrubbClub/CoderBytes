@@ -1,75 +1,15 @@
 import java.util.Random;
+import java.util.Iterator;
 public class RandomizedQueue<Item> implements Iterable<Item> {
     int size;
-    int insertHere;
-    int max;
-    Item[] rq;
-    
-    public RandomizedQueue()                 // construct an empty randomized queue
+    int insertHere = 0;
+    Object[] rq;
+    private class RandomizedQueueIterator implements Iterator
     {
-        rq = new Item[10];
-    }
-    private RandomizedQueue(Item[] kunz)
-    {
-        rq = kunz;
-    }
-    public boolean isEmpty()                 // is the queue empty?
-    {
-        return size() == 0;
-    }
-    public int size()                        // return the number of items on the queue
-    {
-        return size;
-    }
-    public void enqueue(Item item)           // add the item
-    {
-        resize();
-        rq[insertHere] = item;
-        getNextInsertHere(); 
-    }
-    public Item dequeue()                    // remove and return a random item
-    {
-        int num;
-        do
-        {
-            num = (int)Math.random() * (max+1);
-        } while (rq[num] == null);
-        Item toReturn = rq[num];
-        rq[num] = null;
-        if (insertHere > num)
-        {
-            insertHere = num;
-        }
-        size--;
-        return toReturn;
-    }
-    public Item sample()                     // return (but do not remove) a random item
-    {
-        int num;
-        do
-        {
-            num = (int)Math.random() * (max+1);
-        } while (rq[num] == null);
-        return rq[num];
-    }
-    
-    public Iterator<Item> iterator()         // return an independent iterator over items in random order
-    {
-        Item[] itarray = new Item[size];
-        RandomizedQueue throwaway = new RandomizedQueue(rq);
-        i = 0;
-        while (!throwaway.isEmpty())
-        {
-            itarray[i++] = throwaway.dequeue();
-        }
-        return new RandomizedQueueIterator<Item>(itarray);
-    }
-    
-    private class RandomizedQueueIterator<Item>
-    {
-        Item[] rqiarray;
+        Object[] rqiarray;
         int current = 0;
-        public RandomizedQueueIterator<Item>(Item[] itarray)
+       
+        public RandomizedQueueIterator(Object[] itarray)
         {
             rqiarray = itarray;
         }
@@ -83,27 +23,94 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
         public Item next()
         {
-            return rqiarray[current++];
+            return (Item)rqiarray[current++];
         }
     }
+    public RandomizedQueue()                 // construct an empty randomized queue
+    {
+        rq = new Object[10];
+    }
+    private RandomizedQueue(Item[] kunz)
+    {
+        rq = kunz;
+        for (int i = 0; i < rq.length; i++)
+        {
+            if (rq[i] != null)
+            {
+                size++;
+            }
+        }
+    }
+    public boolean isEmpty()                 // is the queue empty?
+    {
+        return size() == 0;
+    }
+    public int size()                        // return the number of items on the queue
+    {
+        return size;
+    }
+    public void enqueue(Item item)           // add the item
+    {
+        resize();
+        rq[insertHere] = item;
+        getNextInsertHere();
+        size++;
+    }
+    public Item dequeue()                    // remove and return a random item
+    {
+        int num;
+        do
+        {
+            num = (int)(Math.random() * (rq.length));
+        } while (rq[num] == null);
+        Item toReturn = (Item)rq[num];
+        rq[num] = null;
+        if (insertHere > num)
+        {
+            insertHere = num;
+        }
+        size--;
+        return toReturn;
+    }
+    public Item sample()                     // return (but do not remove) a random item
+    {
+        int num;
+        do
+        {
+            num = (int)(Math.random() * (rq.length));
+        } while (rq[num] == null);
+        return (Item)rq[num];
+    }
+    
+    public Iterator<Item> iterator()         // return an independent iterator over items in random order
+    {
+        Object[] itarray = new Object[size];
+        RandomizedQueue throwaway = new RandomizedQueue(rq);        
+        int i = 0;
+        while (!throwaway.isEmpty())
+        {
+            itarray[i++] = throwaway.dequeue();
+        }
+        return new RandomizedQueueIterator(itarray);
+    }
+    
     private void resize()
     {
-        if  (size >= max / 2)
+        Object[] temp;
+        if  (size >= rq.length / 2)
         {
-            Item[] temp = new Item[max*2];
-            max = max*2;
+            temp = new Object[rq.length*2];
         }
-        else if (size <= max / 4)
+        else if (size <= rq.length / 4 && rq.length > 10)
         {
-            Item[] temp = new Item[max/2];
-            max = max/2;
+            temp = new Object[rq.length/2];
         }
         else
         {
-            break;
+            return;
         }
         int j = 0;
-        for (i = 0; i < temp.length; i++)
+        for (int i = 0; i < rq.length; i++)
         {
             if (rq[i] != null)
             {
@@ -120,7 +127,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     
     public static void main(String[] args)   // unit testing
     {
-        RandomizedQueue kunzq = new RandomizedQueue();
+        RandomizedQueue<Integer> kunzq = new RandomizedQueue<Integer>();
         System.out.println(kunzq.isEmpty() == true);
         System.out.println(kunzq.size() == 0);
         kunzq.enqueue(1);
@@ -128,7 +135,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         kunzq.enqueue(3);
         System.out.println(kunzq.isEmpty() == false);
         System.out.println(kunzq.size() == 3);
-        System.out.println(kunzq.dequeue);
+        System.out.println(kunzq.dequeue());
         System.out.println(kunzq.size() == 2);
         System.out.println(kunzq.sample());
         System.out.println(kunzq.size() == 2);
@@ -136,9 +143,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         kunzq.enqueue(5);
         kunzq.enqueue(6);
         kunzq.enqueue(7);
-        Iterator<Item> kunzqiterator = new RandomizedQueueIterator<Item>();
-        System.out.println(kunzqiterator.next());
-        System.out.println(kunzqiterator.next());
-        System.out.println(kunzqiterator.next());
+        Iterator<Integer> kunzqiterator = kunzq.iterator();
+        while (kunzqiterator.hasNext())
+        {
+            System.out.println(kunzqiterator.next());
+        }
     }
 }
